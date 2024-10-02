@@ -1,10 +1,12 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}">
+    <title></title>
+</head>
 <body>
 
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
     <div>
         <table class="table table-striped">
@@ -24,14 +26,15 @@
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.stockQuantity}"></td>
                 <td>
-                    <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary" role="button">수정</a>
+                    <a class="btn btn-primary" href="#" role="button"
+                       th:href="@{/items/{id}/edit (id=${item.id})}">수정</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </div> <!-- /container -->
 

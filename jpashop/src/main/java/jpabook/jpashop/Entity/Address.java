@@ -1,9 +1,12 @@
 package jpabook.jpashop.Entity;
 
 import jakarta.persistence.Embeddable;
+import jpabook.jpashop.dto.JoinMemberReqDTO;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 @Embeddable
 public class Address {
 
@@ -25,5 +28,14 @@ public class Address {
 		this.city = city;
 		this.street = street;
 		this.zipcode = zipcode;
+	}
+
+	// 생성
+	public static Address of(JoinMemberReqDTO dto) {
+		return Address.builder()
+				.city(dto.getCity())
+				.street(dto.getStreet())
+				.zipcode(dto.getZipcode())
+				.build();
 	}
 }

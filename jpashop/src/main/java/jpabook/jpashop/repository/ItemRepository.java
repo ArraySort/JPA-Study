@@ -18,7 +18,7 @@ public class ItemRepository {
 		if (item.getId() == null) {
 			em.persist(item);
 		} else {
-			em.merge(item);
+			em.merge(item); // merge 는 모든 객체를 병합하기 때문에 위험하다.
 		}
 	}
 

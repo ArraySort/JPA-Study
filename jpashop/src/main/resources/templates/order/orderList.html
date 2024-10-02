@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"><title></title></head>
 <body>
 
 <div class="container">
 
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
     <div>
         <div>
@@ -16,7 +16,7 @@
                 <div class="form-group mx-sm-1 mb-2">
                     <select class="form-control" th:field="*{orderStatus}">
                         <option value="">주문상태</option>
-                        <option th:each="status : ${T(jpabook.jpashop.Entity.OrderStatus).values()}"
+                        <option th:each="status : ${T(jpabook.jpashop.Entity.enums.OrderStatus).values()}"
                                 th:text="${status}"
                                 th:value="${status}">option
                         </option>
@@ -58,14 +58,14 @@
         </table>
     </div>
 
-    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </div> <!-- /container -->
 
 </body>
 <script>
     function cancel(id) {
-        var form = document.createElement("form");
+        const form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "/orders/" + id + "/cancel");
         document.body.appendChild(form);
