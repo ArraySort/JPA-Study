@@ -18,8 +18,7 @@ public class JpaMain {
 		tx.begin();
 
 		try {
-			Member findMember = em.find(Member.class, 1L);
-			findMember.setName("수정된 JPA");
+
 			// 트랜잭션 커밋
 			tx.commit();
 		} catch (Exception e) {
@@ -28,7 +27,7 @@ public class JpaMain {
 		} finally {
 			em.close();
 		}
-		
+
 		emf.close();
 	}
 }
