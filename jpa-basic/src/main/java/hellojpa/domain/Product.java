@@ -4,16 +4,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
-public class Product {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Product extends BaseEntity {
 
 	@Id
 	@GeneratedValue

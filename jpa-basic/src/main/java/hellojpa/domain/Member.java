@@ -2,7 +2,6 @@ package hellojpa.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +10,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue
@@ -27,7 +25,7 @@ public class Member {
 	private String street;
 
 	private String zipcode;
-	
+
 	// 일대다 관계 적용 => 연관관계 주인 : 중간테이블(FK)
 	@OneToMany(mappedBy = "member")
 	private List<MemberProduct> memberProducts = new ArrayList<>();

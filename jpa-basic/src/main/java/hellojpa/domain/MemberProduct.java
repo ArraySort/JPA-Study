@@ -1,15 +1,16 @@
 package hellojpa.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
-public class MemberProduct {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MemberProduct extends BaseEntity {
 
 	@Id
 	@GeneratedValue
@@ -28,5 +29,5 @@ public class MemberProduct {
 	private int price;
 
 	private LocalDateTime orderDateTime;
-	
+
 }

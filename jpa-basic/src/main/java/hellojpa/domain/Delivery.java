@@ -1,13 +1,14 @@
 package hellojpa.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Setter
-public class Delivery {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Delivery extends BaseEntity {
 
 	@Id
 	@GeneratedValue

@@ -1,5 +1,4 @@
-package hellojpa.domain;
-
+package hellojpa.domain.inheritance;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,19 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Locker extends BaseEntity {
+public abstract class ProductItem {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "locker_id")
+	@Column(name = "item_id")
 	private Long id;
 
 	private String name;
 
-	// 일대일 관계에서 연관관계 설정
-	@OneToOne(mappedBy = "locker")
-	private Member member;
+	private int price;
 
 }

@@ -2,7 +2,6 @@ package hellojpa.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,10 +11,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
 	@Id
 	@GeneratedValue
