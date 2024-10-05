@@ -29,6 +29,10 @@ public class Order {
 	@JoinColumn(name = "member_id")
 	private Member member;
 
+	@OneToOne
+	@JoinColumn(name = "delivery_id")
+	private Delivery delivery;
+
 	private LocalDateTime orderDate;
 
 	// String 으로 써야한다. -> Ordinary 는 값이 되거나 하면 유지보수가 매우 어려워짐
