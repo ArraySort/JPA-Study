@@ -15,11 +15,8 @@ public class Delivery extends BaseEntity {
 	@Column(name = "delivery_id")
 	private Long id;
 
-	private String city;
-
-	private String street;
-
-	private String zipcode;
+	@Embedded
+	private Address address;
 
 	private DeliveryStatus status;
 

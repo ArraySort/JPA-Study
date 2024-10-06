@@ -20,11 +20,8 @@ public class Member extends BaseEntity {
 
 	private String name;
 
-	private String city;
-
-	private String street;
-
-	private String zipcode;
+	@Embedded
+	private Address address;
 
 	// 일대다 관계 적용 => 연관관계 주인 : 중간테이블(FK)
 	@OneToMany(mappedBy = "member")
