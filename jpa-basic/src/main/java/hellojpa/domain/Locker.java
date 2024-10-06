@@ -19,7 +19,7 @@ public class Locker extends BaseEntity {
 	private String name;
 
 	// 일대일 관계에서 연관관계 설정
-	@OneToOne(mappedBy = "locker")
+	@OneToOne(mappedBy = "locker", fetch = FetchType.LAZY)
 	private Member member;
 
 }

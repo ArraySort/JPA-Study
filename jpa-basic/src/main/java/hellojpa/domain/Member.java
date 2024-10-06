@@ -31,12 +31,12 @@ public class Member extends BaseEntity {
 	private List<MemberProduct> memberProducts = new ArrayList<>();
 
 	// 다대일 관계처럼 FK 가 있는 곳이 연관관계의 주인이 된다.
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "locker_id")
 	private Locker locker;
 
 	// 다대일 / 일대다 양방향 관계 설정 : FK 연관관계 주인(수정, 삭제 가능)
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_id")
 	private Team team;
 

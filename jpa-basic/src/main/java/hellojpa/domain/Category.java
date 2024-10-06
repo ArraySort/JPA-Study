@@ -21,7 +21,7 @@ public class Category extends BaseEntity {
 	private String name;
 
 	// 계층형 구조를 위한 부모 객체, 리스트 생성 / Join
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
 	private Category parent;
 
