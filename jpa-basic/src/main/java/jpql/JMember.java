@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@NamedQuery(
+		name = "JMember.findByUsername",
+		query = "select m from JMember m where m.username = :username")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,8 +24,16 @@ public class JMember {
 
 	private int age;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_id")
 	private JTeam JTeam;
 
+	@Override
+	public String toString() {
+		return "JMember{" +
+				"id=" + id +
+				", username='" + username + '\'' +
+				", age=" + age +
+				'}';
+	}
 }

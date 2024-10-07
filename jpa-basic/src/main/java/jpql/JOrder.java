@@ -22,7 +22,7 @@ public class JOrder {
 	@Embedded
 	private JAddress address;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
 	private JProduct product;
 

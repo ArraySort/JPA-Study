@@ -57,6 +57,54 @@ public class JpqlMain {
 				System.out.println("s = " + s);
 			}
 
+			JTeam teamA = new JTeam();
+			teamA.setName("팀A");
+			em.persist(teamA);
+
+			JTeam teamB = new JTeam();
+			teamB.setName("팀B");
+			em.persist(teamB);
+
+			JMember jMember1 = new JMember();
+			jMember1.setUsername("회원1");
+			jMember1.setJTeam(teamA);
+			em.persist(jMember1);
+
+			JMember jMember2 = new JMember();
+			jMember2.setUsername("회원2");
+			jMember2.setJTeam(teamA);
+			em.persist(jMember2);
+
+			JMember jMember3 = new JMember();
+			jMember3.setUsername("회원3");
+			jMember3.setJTeam(teamB);
+			em.persist(jMember3);
+
+			em.flush();
+			em.clear();
+
+			//language=JPAQL
+			String fetchJoinQuery = "select m from JMember m join fetch m.JTeam";
+
+			List<JMember> fetchJoinQueryResult = em.createQuery(fetchJoinQuery, JMember.class)
+					.getResultList();
+
+			for (JMember jMember : fetchJoinQueryResult) {
+				System.out.println("JMember = " + jMember.getUsername() + ", " + jMember.getJTeam().getName());
+				// 회원1, 팀A(SQL, DB 조회)
+				// 회원2, 팀A(영속성 컨텍스트, 1차캐시)
+				// 회원3, 팀B(SQL, DB 조회)
+
+				// 회원 100명 -> N + 1 문제 발생(최악의 경우 팀이 다 다를 때 100번 조회)
+			}
+
+			List<JMember> resultList = em.createNamedQuery("JMember.findByUsername", JMember.class)
+					.setParameter("username", "회원1")
+					.getResultList();
+
+			for (JMember jMember : resultList) {
+				System.out.println("jMember = " + jMember);
+			}
 
 			// 트랜잭션 커밋
 			tx.commit();
