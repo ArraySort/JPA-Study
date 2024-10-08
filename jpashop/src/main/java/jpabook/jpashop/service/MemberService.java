@@ -46,4 +46,11 @@ public class MemberService {
 			throw new IllegalStateException("이미 존재하는 회원입니다.");
 		}
 	}
+
+	// 변경감지(Dirty Checking) 에 의한 업데이트
+	@Transactional
+	public void update(Long id, String name) {
+		Member member = memberRepository.findOne(id);
+		member.setName(name);
+	}
 }

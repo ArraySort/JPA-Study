@@ -10,7 +10,7 @@ spring:
   jpa:
     hibernate:
       # 애플리케이션 실행 시점에서 테이블 생성
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         # show_sql: true
