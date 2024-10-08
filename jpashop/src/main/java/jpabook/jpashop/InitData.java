@@ -24,27 +24,6 @@ public class InitData {
 
 	private final InitService initService;
 
-	private static Member createMember(String name, String city, String street, String zipcode) {
-		Member member = new Member();
-		member.setName(name);
-		member.setAddress(new Address(city, street, zipcode));
-		return member;
-	}
-
-	private static Book createBook(String name, int price, int stockQuantity) {
-		Book book1 = new Book();
-		book1.setName(name);
-		book1.setPrice(price);
-		book1.setStockQuantity(stockQuantity);
-		return book1;
-	}
-
-	private static Delivery createDelivery(Member member) {
-		Delivery delivery = new Delivery();
-		delivery.setAddress(member.getAddress());
-		return delivery;
-	}
-
 	@PostConstruct
 	public void init() {
 		initService.dbInit1();
@@ -94,6 +73,27 @@ public class InitData {
 
 			Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
 			em.persist(order);
+		}
+
+		private Member createMember(String name, String city, String street, String zipcode) {
+			Member member = new Member();
+			member.setName(name);
+			member.setAddress(new Address(city, street, zipcode));
+			return member;
+		}
+
+		private Book createBook(String name, int price, int stockQuantity) {
+			Book book1 = new Book();
+			book1.setName(name);
+			book1.setPrice(price);
+			book1.setStockQuantity(stockQuantity);
+			return book1;
+		}
+
+		private Delivery createDelivery(Member member) {
+			Delivery delivery = new Delivery();
+			delivery.setAddress(member.getAddress());
+			return delivery;
 		}
 	}
 }

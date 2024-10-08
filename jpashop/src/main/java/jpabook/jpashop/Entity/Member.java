@@ -1,5 +1,6 @@
 package jpabook.jpashop.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,8 @@ public class Member {
 	private Address address;    // 회원 주소
 
 	// 일대다 관계 설정(연관관계 주인 설정, 읽기 전용)
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<Order> orders = new ArrayList<>();    // 주문
-	
+
 }
