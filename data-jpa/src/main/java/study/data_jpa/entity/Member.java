@@ -39,6 +39,10 @@ public class Member {
 		}
 	}
 
+	public void changeUsername(String username) {
+		this.username = username;
+	}
+
 	// 양방향 연관관계 편의 메서드
 	public void changeTeam(Team team) {
 		this.team = team;
