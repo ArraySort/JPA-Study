@@ -1,0 +1,37 @@
+#  DataBase
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/datajpa
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  # JPA 설정 알아보기 Spring Boot 메뉴얼 참고
+  jpa:
+    hibernate:
+      # 애플리케이션 실행 시점에서 테이블 생성
+      ddl-auto: create
+    properties:
+      hibernate:
+        # show_sql: true
+        format_sql: true
+
+  thymeleaf:
+    cache: true
+    check-template-location: true
+    prefix: "file:src/main/resources/templates/"
+    suffix: .html
+    enabled: true
+
+# 로깅 출력
+logging:
+  level:
+    org.hibernate.SQL: debug
+    # 쿼리 파라미터 값 확인(데이터베이스에 들어가는 쿼리 파라미터)
+    # org.hibernate.type: trace
+
+# p6spy 로깅 설정(쿼리 파라미터 출력)
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
