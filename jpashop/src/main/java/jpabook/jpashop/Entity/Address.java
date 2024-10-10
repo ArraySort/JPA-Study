@@ -1,7 +1,7 @@
 package jpabook.jpashop.Entity;
 
 import jakarta.persistence.Embeddable;
-import jpabook.jpashop.dto.JoinMemberReqDTO;
+import jpabook.jpashop.dto.request.JoinMemberReqDTO;
 import lombok.Builder;
 import lombok.Getter;
 

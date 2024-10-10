@@ -2,8 +2,8 @@ package jpabook.jpashop.Entity.item;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jpabook.jpashop.dto.AddItemReqDTO;
-import jpabook.jpashop.dto.EditItemReqDTO;
+import jpabook.jpashop.dto.request.AddItemReqDTO;
+import jpabook.jpashop.dto.response.EditItemReqDTO;
 import lombok.Getter;
 import lombok.Setter;
 

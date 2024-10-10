@@ -1,4 +1,4 @@
-package jpabook.jpashop.dto;
+package jpabook.jpashop.dto.request;
 
 import jpabook.jpashop.Entity.Address;
 import jpabook.jpashop.Entity.enums.OrderStatus;
@@ -20,5 +20,5 @@ public class OrderSimpleQueryDTO {
 	private OrderStatus orderStatus;
 
 	private Address address;
-	
+
 }

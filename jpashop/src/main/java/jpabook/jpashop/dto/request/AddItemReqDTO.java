@@ -1,4 +1,4 @@
-package jpabook.jpashop.dto;
+package jpabook.jpashop.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +18,5 @@ public class AddItemReqDTO {
 	private String author;
 
 	private String isbn;
-	
+
 }

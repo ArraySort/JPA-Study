@@ -1,4 +1,4 @@
-package jpabook.jpashop.dto;
+package jpabook.jpashop.dto.response;
 
 import jpabook.jpashop.Entity.item.Book;
 import lombok.Builder;

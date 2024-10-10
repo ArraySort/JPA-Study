@@ -3,7 +3,7 @@ package jpabook.jpashop.api;
 import jpabook.jpashop.Entity.Address;
 import jpabook.jpashop.Entity.Order;
 import jpabook.jpashop.Entity.enums.OrderStatus;
-import jpabook.jpashop.dto.OrderSimpleQueryDTO;
+import jpabook.jpashop.dto.request.OrderSimpleQueryDTO;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import lombok.Data;

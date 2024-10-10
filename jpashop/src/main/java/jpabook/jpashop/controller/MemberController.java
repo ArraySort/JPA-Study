@@ -3,7 +3,7 @@ package jpabook.jpashop.controller;
 import jakarta.validation.Valid;
 import jpabook.jpashop.Entity.Address;
 import jpabook.jpashop.Entity.Member;
-import jpabook.jpashop.dto.JoinMemberReqDTO;
+import jpabook.jpashop.dto.request.JoinMemberReqDTO;
 import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

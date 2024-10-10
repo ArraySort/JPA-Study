@@ -2,9 +2,9 @@ package jpabook.jpashop.controller;
 
 import jpabook.jpashop.Entity.item.Book;
 import jpabook.jpashop.Entity.item.Item;
-import jpabook.jpashop.dto.AddItemReqDTO;
-import jpabook.jpashop.dto.EditItemReqDTO;
-import jpabook.jpashop.dto.EditItemResDTO;
+import jpabook.jpashop.dto.request.AddItemReqDTO;
+import jpabook.jpashop.dto.response.EditItemReqDTO;
+import jpabook.jpashop.dto.response.EditItemResDTO;
 import jpabook.jpashop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

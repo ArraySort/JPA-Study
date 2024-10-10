@@ -15,6 +15,8 @@ spring:
       hibernate:
         # show_sql: true
         format_sql: true
+        # batch size 지정 : in 쿼리의 개수 지정
+        default_batch_fetch_size: 10
 
   thymeleaf:
     cache: true
