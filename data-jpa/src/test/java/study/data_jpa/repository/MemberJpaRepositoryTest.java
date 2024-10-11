@@ -67,4 +67,47 @@ class MemberJpaRepositoryTest {
 		long deletedCount = memberJpaRepository.count();
 		assertThat(deletedCount).isZero();
 	}
+
+	@Test
+	@Transactional
+	void findByUsernameAndAgeGreaterThen() {
+		Member member1 = new Member("member", 10);
+		Member member2 = new Member("member", 20);
+		memberJpaRepository.save(member1);
+		memberJpaRepository.save(member2);
+
+		List<Member> result = memberJpaRepository.findByUsernameAndAgeGreaterThan("member", 15);
+		assertThat(result.get(0).getUsername()).isEqualTo("member");
+		assertThat(result.get(0).getAge()).isEqualTo(20);
+		assertThat(result).hasSize(1);
+	}
+
+	@Test
+	@Transactional
+	void paging() {
+		int age = 10;
+		int offset = 1;
+		int limit = 3;
+
+		for (int i = 1; i < 11; i++) {
+			memberJpaRepository.save(new Member("member" + i, 10));
+		}
+
+		List<Member> pageMembers = memberJpaRepository.findByPage(age, offset, limit);
+		long totalCount = memberJpaRepository.totalCount(age);
+
+		assertThat(pageMembers).hasSize(3);
+		assertThat(totalCount).isEqualTo(10);
+	}
+
+	@Test
+	@Transactional
+	void bulkUpdate() {
+		for (int i = 1; i < 6; i++) {
+			memberJpaRepository.save(new Member("member" + i, 20));
+		}
+
+		int resultCount = memberJpaRepository.bulkAgePlus(20);
+		assertThat(resultCount).isEqualTo(5);
+	}
 }
