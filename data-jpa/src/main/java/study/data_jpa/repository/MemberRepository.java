@@ -12,7 +12,7 @@ import study.data_jpa.entity.Member;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
 	// 파라미터가 많아지면 이름이 엄청나게 길어지는 단점이 있음
 	List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
