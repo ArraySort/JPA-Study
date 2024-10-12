@@ -1,7 +1,10 @@
 package study.querydsl;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
@@ -14,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import study.querydsl.dto.MemberDTO;
+import study.querydsl.dto.QMemberDTO;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
 import study.querydsl.entity.Team;
@@ -422,5 +427,221 @@ class QuerydslBasicTest {
 		for (String s : result) {
 			System.out.println("s = " + s);
 		}
+	}
+
+	@Test
+	void tupleProjection() {
+		List<String> result = queryFactory
+				.select(member.username)
+				.from(member)
+				.fetch();
+
+		for (String s : result) {
+			System.out.println("s = " + s);
+		}
+
+		List<Tuple> result2 = queryFactory
+				.select(member.username, member.age)
+				.from(member)
+				.fetch();
+
+		for (Tuple tuple : result2) {
+			String username = tuple.get(member.username);
+			Integer age = tuple.get(member.age);
+
+			System.out.println("username = " + username);
+			System.out.println("age = " + age);
+		}
+	}
+
+	@Test
+	void findDTOByJPQL() {
+		List<MemberDTO> result = em.createQuery("select new study.querydsl.dto.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+				.getResultList();
+
+		for (MemberDTO memberDTO : result) {
+			System.out.println("memberDTO = " + memberDTO);
+		}
+	}
+
+	// Setter 를 이용한 방식 : DTO 에 Setter 가 필요하다.
+	@Test
+	void findDTOBySetter() {
+		List<MemberDTO> result = queryFactory
+				.select(Projections.bean(
+						MemberDTO.class,
+						member.username,
+						member.age
+				))
+				.from(member)
+				.fetch();
+
+		for (MemberDTO memberDTO : result) {
+			System.out.println("memberDTO = " + memberDTO);
+		}
+	}
+
+	// 필드에 바로 넣는 방식 : DTO 에 Setter 필요 없음
+	@Test
+	void findDTOByField() {
+		List<MemberDTO> result = queryFactory
+				.select(Projections.fields(
+						MemberDTO.class,
+						member.username,
+						member.age
+				))
+				.from(member)
+				.fetch();
+
+		for (MemberDTO memberDTO : result) {
+			System.out.println("memberDTO = " + memberDTO);
+		}
+	}
+
+	// 런타임 오류가 발생할 수 있음
+	@Test
+	void findDTOByConstructor() {
+		List<MemberDTO> result = queryFactory
+				.select(Projections.constructor(
+						MemberDTO.class,
+						member.username,
+						member.age
+				))
+				.from(member)
+				.fetch();
+
+		for (MemberDTO memberDTO : result) {
+			System.out.println("memberDTO = " + memberDTO);
+		}
+	}
+
+	// 런타임 오류를 해결할 수 있음 / DTO 자체가 querydsl 에 의존성을 가지게 된다.
+	@Test
+	void findDTOByQueryProjection() {
+		List<MemberDTO> result = queryFactory
+				.select(new QMemberDTO(member.username, member.age))
+				.from(member)
+				.fetch();
+
+		for (MemberDTO memberDTO : result) {
+			System.out.println("memberDTO = " + memberDTO);
+		}
+	}
+
+	/**
+	 * 검색 조건 동적쿼리
+	 * BooleanBuilder 사용
+	 */
+	@Test
+	void 동적쿼리_BooleanBuilder() {
+		String usernameParam = "member1";
+		Integer ageParam = null;
+
+		List<Member> result = searchMember1(usernameParam, ageParam);
+		assertThat(result).hasSize(1);
+	}
+
+	private List<Member> searchMember1(String usernameCond, Integer ageCond) {
+		BooleanBuilder builder = new BooleanBuilder();
+
+		// 이름 조건이 null 이 아닐 때
+		if (usernameCond != null) {
+			builder.and(member.username.eq(usernameCond));
+		}
+
+		// 나이 조건이 null 이 아닐 때
+		if (ageCond != null) {
+			builder.and(member.age.eq(ageCond));
+		}
+
+		// 둘 다 조건이 null 일때? -> builder 가 실행되지 않으므로 조건이 안들어감
+		return queryFactory
+				.selectFrom(member)
+				.where(builder)
+				.fetch();
+	}
+
+	/**
+	 * 검색 조건 동적쿼리
+	 * 다중 where 파라미터 사용
+	 * 재사용 가능
+	 */
+	@Test
+	void 동적쿼리_WhereParam() {
+		String usernameParam = "member1";
+		Integer ageParam = 10;
+
+		List<Member> result = searchMember2(usernameParam, ageParam);
+		assertThat(result).hasSize(1);
+	}
+
+	private List<Member> searchMember2(String usernameCond, Integer ageCond) {
+		return queryFactory
+				.selectFrom(member)
+				// where 안에 null 이 들어가면 조건이 무시된다.
+				// .where(usernameEq(usernameCond), ageEq(ageCond))
+				.where(allEq(usernameCond, ageCond))
+				.fetch();
+	}
+
+	private BooleanExpression usernameEq(String usernameCond) {
+		return usernameCond != null ? member.username.eq(usernameCond) : null;
+	}
+
+	private BooleanExpression ageEq(Integer ageCond) {
+		return ageCond != null ? member.age.eq(ageCond) : null;
+	}
+
+	private BooleanExpression allEq(String usernameCond, Integer ageCond) {
+		return usernameEq(usernameCond).and(ageEq(ageCond));
+	}
+
+	@Test
+	void bulkUpdate() {
+		// member1 = 10 -> 비회원
+		// member2 = 20 -> 비회원
+		long count = queryFactory
+				.update(member)
+				.set(member.username, "비회원")
+				.where(member.age.lt(28))
+				.execute();
+
+		// 영속성 컨텍스트 초기화
+		em.flush();
+		em.clear();
+
+		// 영속성 컨텍스트와 값이 달라진다. -> 벌크연산을 하면 DB 에 바로 반영된다.
+		List<Member> result = queryFactory
+				.selectFrom(member)
+				.fetch();
+
+		// 변경 전 데이터가 유지된다.
+		for (Member member : result) {
+			System.out.println("member = " + member);
+		}
+
+		assertThat(count).isEqualTo(2);
+	}
+
+	@Test
+	void bulkAdd() {
+		long count = queryFactory
+				.update(member)
+				.set(member.age, member.age.add(2))
+				.execute();
+
+		em.flush();
+		em.clear();
+
+		List<Member> result = queryFactory
+				.selectFrom(member)
+				.fetch();
+
+		// 변경 전 데이터가 유지된다.
+		for (Member member : result) {
+			System.out.println("member = " + member);
+		}
+
+		assertThat(count).isEqualTo(4);
 	}
 }
