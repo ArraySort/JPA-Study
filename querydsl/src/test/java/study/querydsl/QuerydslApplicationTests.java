@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import study.querydsl.entity.HelloEntity;
-import study.querydsl.entity.QHelloEntity;
+import study.querydsl.entity.Hello;
+import study.querydsl.entity.QHello;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,13 +21,13 @@ class QuerydslApplicationTests {
 	@Transactional
 	void contextLoads() {
 
-		HelloEntity hello = new HelloEntity();
+		Hello hello = new Hello();
 		em.persist(hello);
 
 		JPAQueryFactory query = new JPAQueryFactory(em);
-		QHelloEntity qHello = new QHelloEntity("Hello");
+		QHello qHello = new QHello("Hello");
 
-		HelloEntity result = query
+		Hello result = query
 				.selectFrom(qHello)
 				.fetchOne();
 

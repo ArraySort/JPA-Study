@@ -7,10 +7,10 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class HelloEntity {
+public class Hello {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 }
